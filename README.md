@@ -1,13 +1,11 @@
 # `@despia/bluetooth`
 
+[![GitHub Repository](https://img.shields.io/badge/GitHub-despia--native%2F--despia--bluetooth-181717?logo=github)](https://github.com/despia-native/-despia-bluetooth)
+
 > **Note (pre-release / limited access)**  
 > This package is **only meant for Despia’s internal QA team and selected users** while the Bluetooth bridge is still in development. It will be **re-released for the general public in the near future**.
 
 Typed, Promise-based Bluetooth SDK for the Despia runtime.
-
-## Repository
-
-GitHub: `https://github.com/despia-native/-despia-bluetooth`
 
 - **Typed API**: strong TypeScript types for devices, services, and events
 - **Async-first**: `async/await` for scan/connect/read/write
