@@ -15,6 +15,7 @@ export class BluetoothClient {
     // ── State ─────────────────────────────────────────────────────────
 
     async getState(): Promise<string> {
+        if (!isDespia()) return ''
         return callAwait<any>('bluetooth://state', 'bleState').then(d => d.state)
     }
 

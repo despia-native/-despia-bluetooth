@@ -109,22 +109,13 @@ import { bluetooth } from '@despia/bluetooth'
 
 await bluetooth.startScan({
   onDevice: async (d) => {
-    // Scanning can trigger a native Bluetooth permission prompt.
-    // If the user allows permission, scan results will arrive here via `onDevice`.
-    // If the user denies permission, you typically get zero `onDevice` calls.
-    // You may also receive `{ state: 'unauthorized' }` via `bluetooth.onStateChange(...)`.
     await bluetooth.stopScan()
-    const firstService = d.services[0] ?? '(no advertised services)'
+    const services = d.services.length ? d.services.join('\n') : '(none)'
     alert(
-      [
-        `Name: ${d.name ?? '(unnamed)'}`,
-        `ID: ${d.id}`,
-        `First advertised service: ${firstService}`,
-        `All advertised services: ${d.services.join(', ') || '(none)'}`,
-        '',
-        'Full device payload:',
-        JSON.stringify(d, null, 2)
-      ].join('\n')
+      `Device found\n\n` +
+      `Name: ${d.name ?? '(unnamed)'}\n` +
+      `ID: ${d.id}\n\n` +
+      `Advertised services:\n${services}`
     )
   }
 })
@@ -157,6 +148,24 @@ bluetooth.onStateChange(({ state }) => {
   if (state === 'unauthorized') {
     alert('Bluetooth permission denied')
   }
+})
+```
+
+If you prefer a per-call check (instead of relying on a global listener), use `getState()` before scanning or connecting:
+
+```ts
+import { bluetooth } from '@despia/bluetooth'
+
+async function assertBleAuthorized(): Promise<void> {
+  const state = await bluetooth.getState()
+  if (state === 'unauthorized') throw new Error('Bluetooth permission denied')
+  if (state === 'off') throw new Error('Bluetooth is off')
+  if (state === 'unsupported') throw new Error('Bluetooth unsupported')
+}
+
+await assertBleAuthorized()
+await bluetooth.startScan({
+  onDevice: (d) => console.log('device', d.name, d.id)
 })
 ```
 
