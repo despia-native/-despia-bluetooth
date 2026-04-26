@@ -17,6 +17,7 @@ GitHub: `https://github.com/despia-native/-despia-bluetooth`
 ## Requirements
 
 - Works inside the Despia runtime (where `window.despia` is available)
+- Bluetooth must be enabled in Despia: `Despia > App > Addons > Bluetooth`
 - In normal browsers and local web dev, calls silently no-op so you can run the same code safely
 
 ## Install
